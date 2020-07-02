@@ -1,0 +1,69 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auto-tracing-mutating-webhook
+  labels:
+    app: auto-tracing-mutating-webhook
+spec:
+  publishNotReadyAddresses: true
+  ports:
+    - port: 443
+      targetPort: 5000
+      name: https
+  selector:
+    app: auto-tracing-mutating-webhook
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auto-tracing-mutating-webhook
+  labels:
+    app: auto-tracing-mutating-webhook
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auto-tracing-mutating-webhook
+  template:
+    metadata:
+      name: auto-tracing-mutating-webhook
+      labels:
+        app: auto-tracing-mutating-webhook
+    spec:
+      containers:
+        - name: auto-tracing-mutating-webhook
+          image: k0diak/auto-tracing-webhook:latest
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: JAEGER_AGENT_PORT
+            value: "5775"
+          - name: JAEGER_AGENT_HOST
+            value: "jaeger-agent.istio-system.svc"
+      imagePullSecrets:
+        - name: regcred
+---
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: auto-tracing-mutating-webhook
+  labels:
+    app: auto-tracing-mutating-webhook
+webhooks:
+  - name: auto-tracing-mutating-webhook.istio-system.svc.cluster.local
+    clientConfig:
+      caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURQekNDQWllZ0F3SUJBZ0lVUTZmcVZ6aWVpV1dodVBqTjh1dlMrSjIxdjR3d0RRWUpLb1pJaHZjTkFRRUwKQlFBd0x6RXRNQ3NHQTFVRUF3d2tRV1J0YVhOemFXOXVJRU52Ym5SeWIyeHNaWElnVjJWaWFHOXZheUJFWlcxdgpJRU5CTUI0WERUSXdNRFl4TnpFME1EVXhORm9YRFRRM01URXdNekUwTURVeE5Gb3dMekV0TUNzR0ExVUVBd3drClFXUnRhWE56YVc5dUlFTnZiblJ5YjJ4c1pYSWdWMlZpYUc5dmF5QkVaVzF2SUVOQk1JSUJJakFOQmdrcWhraUcKOXcwQkFRRUZBQU9DQVE4QU1JSUJDZ0tDQVFFQTBhYUZXRHlvbUl0aU1jbUlhV1BVank5dVA0RFNmWXZPcjdVOAphTXBoa3ZDdnVIRkx4RXRHcTd0eWJ1MWFYT0RWNkxMa0duWStFZ3JGTmNYbVJta3l3SDRuWkU2aDEvRTEvZXUxCkdQVGtKZ1lhRUg4d0Z1ck1sdHVSRk1MN2pUZzFWaFFEWTZlcFhibjVoWHZlNnF5M25SbTkzb290WnZ5WGJnek8KYWJnOFEzcW5yS0NnS1l0RlpMZk1wbm0xdnVNeUlPTFhQdkpxMVpzWEJmTzFucVpWbWk1YWU4UjR4d0dIV3ovWgpUU0pueFRHdCtKVDZLNVVyb1hLMXVYQVM1a08zMFJiZjgwWXVlNmNXUUdPRXdQYmxxU3Y3NjJ3d1FFS3p1a0w2Cm1WOTZScVUvZjJnL1JmNDRlZ3ltT3E3R0lpcS9IeVVqaEhZazB2Q29xOC9TcHhYQzV3SURBUUFCbzFNd1VUQWQKQmdOVkhRNEVGZ1FVWmlwZ1VudU9rOXlRc25wZzRkMDdFVk40NTFjd0h3WURWUjBqQkJnd0ZvQVVaaXBnVW51TwprOXlRc25wZzRkMDdFVk40NTFjd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBTkJna3Foa2lHOXcwQkFRc0ZBQU9DCkFRRUFVVG9BTkZoRWNTM0ZYSWJLME10SlgzOVJNd1c2bzlyZitZa2lpVnp0STJsOHlTV3ZSSFVPNThXVEl4VVMKMExqS3B1MUtMYTRZYTRLRkcxQVNGSDlaSGtCZlRmdmcrWkZOUWYxNllBMUlwQjNUZGRzbEJYMlRmbC8zWU93MgplUlFQeGVMUitxT1hYZ3JpYnFTTG1KVW42NHVlWmp2OXpzd2VBWnVCbkJaRFpGM0ZpaWhCbzR3b2pacHBwZXRzCmtkOCtGK3BseksvY2lEN29rRFlsbm9qc3dHQXFNN3AxQ2F4WmZIeWFUY3ZuejFOcTJxQnIwWEFBR1EwVDJmWlgKSUE1STdLZVpSb2kwS3VmUUNHeS90Mmlxa2U3NHJDQkUwS1IxTk1UYmNGM282T205eFZ6MHIxOHM3dUZLN3JSTQpXRHc3Mm81a0E3QlFxdFdOazFwaDZHandHdz09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+      service:
+        name: auto-tracing-mutating-webhook
+        namespace: istio-system
+        path: "/decorate"
+    rules:
+      - operations: ["CREATE"]
+        apiGroups: [""]
+        apiVersions: ["v1"]
+        resources: ["pods"]
+    failurePolicy: Fail
+    namespaceSelector:
+      matchLabels:
+        autotrace: enabled

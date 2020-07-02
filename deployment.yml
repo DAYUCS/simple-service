@@ -10,6 +10,7 @@ spec:
   ports:
     - port: 8080
       targetPort: 8080
+      name: http
   selector:
     app: service-a
 ---
@@ -24,6 +25,7 @@ spec:
   ports:
     - port: 8080
       targetPort: 8080
+      name: http
   selector:
     app: service-b
 ---
@@ -38,6 +40,7 @@ spec:
   ports:
     - port: 8080
       targetPort: 8080
+      name: http
   selector:
     app: service-c
 ---
@@ -66,13 +69,6 @@ spec:
           env:
             - name: UPSTREAM
               value: "http://service-b:8080"
-          resources:
-            limits:
-              cpu: 500m
-              memory: 512Mi
-            requests:
-              cpu: 250m
-              memory: 256Mi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -99,13 +95,6 @@ spec:
           env:
             - name: UPSTREAM
               value: "http://service-c:8080"
-          resources:
-            limits:
-              cpu: 500m
-              memory: 512Mi
-            requests:
-              cpu: 250m
-              memory: 256Mi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -132,10 +121,3 @@ spec:
           env:
             - name: UPSTREAM
               value: "http://worldclockapi.com/"
-          resources:
-            limits:
-              cpu: 500m
-              memory: 512Mi
-            requests:
-              cpu: 250m
-              memory: 256Mi

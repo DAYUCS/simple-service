@@ -3,19 +3,14 @@ package hello;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 
 import javax.servlet.http.HttpServletRequest;
-
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Value;
 
 @SpringBootApplication
 @RestController
@@ -24,18 +19,21 @@ public class Application {
 	@Value("${upstream:http://worldclockapi.com/api/json/utc/now}")
 	private String upstream;
 
+	@Bean
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
+	}
+
 	@RequestMapping("/**")
-	public String pass(HttpServletRequest request, @RequestHeader HttpHeaders requestHeaders) {
+	public String pass(HttpServletRequest request) {
 		String path = request.getServletPath();
-		ResponseEntity<String> response = requestUpstream(path, requestHeaders);
+		ResponseEntity<String> response = requestUpstream(path);
 		return response.getBody();
 	}
 
-	private ResponseEntity<String> requestUpstream(String path, HttpHeaders requestHeaders) {
-		final HttpEntity<String> entity = new HttpEntity<String>(requestHeaders);
-		RestTemplate restTemplate = new RestTemplate();
+	private ResponseEntity<String> requestUpstream(String path) {
 		String resourceUrl = upstream + path;
-		return restTemplate.exchange(resourceUrl, HttpMethod.GET, entity, String.class);
+		return restTemplate().getForEntity(resourceUrl, String.class);
 	}
 
 	public static void main(String[] args) {

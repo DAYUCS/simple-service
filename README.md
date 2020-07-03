@@ -1,16 +1,16 @@
 # Build
 ```
-mvn package
+mvn install -DskipTests
 ```
 
 # Containerize
 ```
-mkdir target/dependency
+mkdir -p target/dependency
 cd target/dependency
 jar -xf ../*.jar
 cd ..
 cd ..
-docker build -t biandayu/simple-service
+docker build -t biandayu/simple-service .
 ```
 
 # Deploy
@@ -36,4 +36,5 @@ curl http://localhost/api/json/utc/now
 
 # Dashboards:
 [Kiali](OpenTracing-Kiali.png)
+
 [Jaeger](OpenTracing-Jaeger.png)

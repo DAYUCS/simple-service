@@ -69,6 +69,18 @@ spec:
           env:
             - name: UPSTREAM
               value: "http://service-b:8080"
+            - name: OPENTRACING_JAEGER_SERVICE_NAME
+              value: "service-a"
+            - name: OPENTRACING_JAEGER_ENABLED
+              value: "true"
+            - name: OPENTRACING_JAEGER_ENABLE-B3-PROPAGATION
+              value: "true"
+            - name: OPENTRACING_JAEGER_UDP_SENDER_HOST
+              value: "jaeger-agent.istio-system.svc"
+            - name: OPENTRACING_JAEGER_UDP_SENDER_PORT
+              value: "5775"
+            - name: OPENTRACING_JAEGER_PROBABILISTIC_SAMPLER_SAMPLING_RATE
+              value: "0.0"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -95,6 +107,18 @@ spec:
           env:
             - name: UPSTREAM
               value: "http://service-c:8080"
+            - name: OPENTRACING_JAEGER_SERVICE_NAME
+              value: "service-b"
+            - name: OPENTRACING_JAEGER_ENABLED
+              value: "true"
+            - name: OPENTRACING_JAEGER_ENABLE-B3-PROPAGATION
+              value: "true"
+            - name: OPENTRACING_JAEGER_UDP_SENDER_HOST
+              value: "jaeger-agent.istio-system.svc"
+            - name: OPENTRACING_JAEGER_UDP_SENDER_PORT
+              value: "5775"
+            - name: OPENTRACING_JAEGER_PROBABILISTIC_SAMPLER_SAMPLING_RATE
+              value: "0.0"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -121,3 +145,15 @@ spec:
           env:
             - name: UPSTREAM
               value: "http://worldclockapi.com/"
+            - name: OPENTRACING_JAEGER_SERVICE_NAME
+              value: "service-c"
+            - name: OPENTRACING_JAEGER_ENABLED
+              value: "true"
+            - name: OPENTRACING_JAEGER_ENABLE-B3-PROPAGATION
+              value: "true"
+            - name: OPENTRACING_JAEGER_UDP_SENDER_HOST
+              value: "jaeger-agent.istio-system.svc"
+            - name: OPENTRACING_JAEGER_UDP_SENDER_PORT
+              value: "5775"
+            - name: OPENTRACING_JAEGER_PROBABILISTIC_SAMPLER_SAMPLING_RATE
+              value: "0.0"

@@ -1,13 +1,13 @@
 server:
   port: 8080
 
-opentracing:
-  jaeger:
-    service-name: SimpleService
-    enabled: true
-    enable-b3-propagation: true
-    probabilistic-sampler:
-      sampling-rate: 0.0
-    udp-sender:
-      host: jaeger-agent.istio-system.svc
-      port: 5775
+#opentracing:
+#  jaeger:
+#    service-name: SimpleService
+#    enabled: true
+#    enable-b3-propagation: true
+#    probabilistic-sampler:
+#      sampling-rate: 0.0
+#    udp-sender:
+#      host: jaeger-agent.istio-system.svc
+#      port: 5775

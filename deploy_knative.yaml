@@ -1,0 +1,28 @@
+apiVersion: serving.knative.dev/v1 # Current version of Knative
+kind: Service
+metadata:
+  name: time-service # The name of the app
+  namespace: default # The namespace the app will use
+  #labels:
+  #  serving.knative.dev/visibility: "cluster-local"
+spec:
+  template:
+    spec:
+      containers:
+        - image: docker.io/biandayu/simple-service # Reference to the image of the app
+          env:
+            - name: UPSTREAM # The environment variable printed out by the sample app
+              value: "http://worldclockapi.com/"
+            - name: OPENTRACING_JAEGER_SERVICE_NAME
+              value: "time-service"
+            - name: OPENTRACING_JAEGER_ENABLED
+              value: "true"
+            - name: OPENTRACING_JAEGER_ENABLE-B3-PROPAGATION
+              value: "true"
+            - name: OPENTRACING_JAEGER_UDP_SENDER_HOST
+              value: "jaeger-agent.istio-system.svc"
+            - name: OPENTRACING_JAEGER_UDP_SENDER_PORT
+              value: "5775"
+            - name: OPENTRACING_JAEGER_PROBABILISTIC_SAMPLER_SAMPLING_RATE
+              value: "0.0"
+---

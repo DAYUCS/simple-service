@@ -1,9 +1,11 @@
-# Build
+# Deploy as Kubernetes service
+
+## Build
 ```
 mvn install -DskipTests
 ```
 
-# Containerize
+## Containerize
 ```
 mkdir -p target/dependency
 cd target/dependency
@@ -13,28 +15,40 @@ cd ..
 docker build -t biandayu/simple-service .
 ```
 
-# Deploy
+## Deploy
 ```
 kubectl apply -f deployment.yml
 kubectl apply -f ss-ingress.yml
 ```
 
-# Open Dashboard Kiali
+## Open Dashboard Kiali
 ```
 istioctl dashboard kiali
 ```
 
-# Open Dashboard Jaeger
+## Open Dashboard Jaeger
 ```
 istioctl dashboard jaeger
 ```
 
-# Access the service
+## Access the service
 ```
 curl http://localhost/api/json/utc/now
 ```
 
-# Dashboards:
+## Dashboards:
 [Kiali](OpenTracing-Kiali.png)
 
 [Jaeger](OpenTracing-Jaeger.png)
+
+# Deploy as Knative serving
+
+## Deploy
+---
+kubectl apply -f deploy_knative.yaml
+---
+
+## Access
+---
+curl time-service.default.127.0.0.1.xip.io/api/json/utc/now
+---

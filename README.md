@@ -44,11 +44,11 @@ curl http://localhost/api/json/utc/now
 # Deploy as Knative serving
 
 ## Deploy
----
+```
 kubectl apply -f deploy_knative.yaml
----
+```
 
 ## Access
----
+```
 curl time-service.default.127.0.0.1.xip.io/api/json/utc/now
----
+```

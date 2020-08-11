@@ -80,7 +80,7 @@ spec:
             - name: OPENTRACING_JAEGER_UDP_SENDER_PORT
               value: "5775"
             - name: OPENTRACING_JAEGER_PROBABILISTIC_SAMPLER_SAMPLING_RATE
-              value: "0.0"
+              value: "1.0"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -118,7 +118,7 @@ spec:
             - name: OPENTRACING_JAEGER_UDP_SENDER_PORT
               value: "5775"
             - name: OPENTRACING_JAEGER_PROBABILISTIC_SAMPLER_SAMPLING_RATE
-              value: "0.0"
+              value: "1.0"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -156,4 +156,4 @@ spec:
             - name: OPENTRACING_JAEGER_UDP_SENDER_PORT
               value: "5775"
             - name: OPENTRACING_JAEGER_PROBABILISTIC_SAMPLER_SAMPLING_RATE
-              value: "0.0"
+              value: "1.0"

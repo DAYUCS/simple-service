@@ -12,7 +12,7 @@ spec:
         - image: docker.io/biandayu/simple-service # Reference to the image of the app
           env:
             - name: UPSTREAM # The environment variable printed out by the sample app
-              value: "http://worldclockapi.com/"
+              value: "https://www.thecocktaildb.com/"
             - name: OPENTRACING_JAEGER_SERVICE_NAME
               value: "time-service"
             - name: OPENTRACING_JAEGER_ENABLED

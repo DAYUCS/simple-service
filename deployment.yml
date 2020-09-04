@@ -75,8 +75,8 @@ spec:
               value: "true"
             - name: OPENTRACING_JAEGER_ENABLE-B3-PROPAGATION
               value: "true"
-            - name: OPENTRACING_JAEGER_HTTP_SENDER_URL
-              value: "http://zipkin.istio-system.svc:9441/api/traces"
+#            - name: OPENTRACING_JAEGER_HTTP_SENDER_URL
+#              value: "http://zipkin.istio-system.svc:9411/api/traces"
             - name: OPENTRACING_JAEGER_PROBABILISTIC_SAMPLER_SAMPLING_RATE
               value: "1.0"
 ---
@@ -111,8 +111,8 @@ spec:
               value: "true"
             - name: OPENTRACING_JAEGER_ENABLE-B3-PROPAGATION
               value: "true"
-            - name: OPENTRACING_JAEGER_HTTP_SENDER_URL
-              value: "http://zipkin.istio-system.svc:9441/api/traces"
+#            - name: OPENTRACING_JAEGER_HTTP_SENDER_URL
+#              value: "http://zipkin.istio-system.svc:9411/api/traces"
             - name: OPENTRACING_JAEGER_PROBABILISTIC_SAMPLER_SAMPLING_RATE
               value: "1.0"
 ---
@@ -140,14 +140,14 @@ spec:
           imagePullPolicy: IfNotPresent
           env:
             - name: UPSTREAM
-              value: "http://worldclockapi.com/"
+              value: "https://www.thecocktaildb.com/"
             - name: OPENTRACING_JAEGER_SERVICE_NAME
               value: "service-c"
             - name: OPENTRACING_JAEGER_ENABLED
               value: "true"
             - name: OPENTRACING_JAEGER_ENABLE-B3-PROPAGATION
               value: "true"
-            - name: OPENTRACING_JAEGER_HTTP_SENDER_URL
-              value: "http://zipkin.istio-system.svc:9441/api/traces"
+#            - name: OPENTRACING_JAEGER_HTTP_SENDER_URL
+#              value: "http://zipkin.istio-system.svc:9411/api/traces"
             - name: OPENTRACING_JAEGER_PROBABILISTIC_SAMPLER_SAMPLING_RATE
               value: "1.0"

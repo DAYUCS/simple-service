@@ -207,6 +207,8 @@ spec:
     accessLogFile: /dev/stdout
     defaultConfig:
       proxyMetadata: {}
+      tracing:
+        sampling: 100
     enablePrometheusMerge: true
   #profile: demo
   #tag: 1.7.1
@@ -339,7 +341,7 @@ spec:
           maxNumberOfAttributes: 200
           maxNumberOfMessageEvents: 200
         zipkin:
-          address: "zipkin.istio-system.svc.cluster.local:9411"
+          address: ""
       trustDomain: cluster.local
       useMCP: false
     grafana:

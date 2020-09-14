@@ -115,10 +115,10 @@ spec:
                 targetPort: 15020
               - name: http2
                 port: 80
-                targetPort: 8080
+                targetPort: 9080
               - name: https
                 port: 443
-                targetPort: 8443
+                targetPort: 9443
     istiodRemote:
       enabled: false
     pilot:
@@ -209,7 +209,7 @@ spec:
       proxyMetadata: {}
     enablePrometheusMerge: true
   #profile: demo
-  #tag: 1.7.0
+  #tag: 1.7.1
   values:
     base:
       enableCRDTemplates: false
@@ -339,7 +339,7 @@ spec:
           maxNumberOfAttributes: 200
           maxNumberOfMessageEvents: 200
         zipkin:
-          address: ""
+          address: "zipkin.istio-system.svc.cluster.local:9411"
       trustDomain: cluster.local
       useMCP: false
     grafana:

@@ -103,6 +103,9 @@ spec:
           istio: cluster-local-gateway
           app: cluster-local-gateway
         k8s:
+          env:
+          - name: ISTIO_META_ROUTER_MODE
+            value: sni-dnat
           resources:
             requests:
               cpu: 10m

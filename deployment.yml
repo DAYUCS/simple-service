@@ -64,21 +64,13 @@ spec:
     spec:
       containers:
         - name: service-a
-          image: biandayu/simple-service
+          image: biandayu/simple-service:v1.1.0
           imagePullPolicy: IfNotPresent
           env:
             - name: UPSTREAM
               value: "http://service-b:8080"
-            - name: OPENTRACING_JAEGER_SERVICE_NAME
-              value: "service-a"
-            - name: OPENTRACING_JAEGER_ENABLED
-              value: "true"
-            - name: OPENTRACING_JAEGER_ENABLE-B3-PROPAGATION
-              value: "true"
-#            - name: OPENTRACING_JAEGER_HTTP_SENDER_URL
-#              value: "http://zipkin.istio-system.svc:9411/api/traces"
-            - name: OPENTRACING_JAEGER_PROBABILISTIC_SAMPLER_SAMPLING_RATE
-              value: "1.0"
+            - name: OC_AGENT_HOST
+              value: "collector.linkerd-jaeger.svc.cluster.local:55678"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -100,21 +92,13 @@ spec:
     spec:
       containers:
         - name: service-b
-          image: biandayu/simple-service
+          image: biandayu/simple-service:v1.1.0
           imagePullPolicy: IfNotPresent
           env:
             - name: UPSTREAM
               value: "http://service-c:8080"
-            - name: OPENTRACING_JAEGER_SERVICE_NAME
-              value: "service-b"
-            - name: OPENTRACING_JAEGER_ENABLED
-              value: "true"
-            - name: OPENTRACING_JAEGER_ENABLE-B3-PROPAGATION
-              value: "true"
-#            - name: OPENTRACING_JAEGER_HTTP_SENDER_URL
-#              value: "http://zipkin.istio-system.svc:9411/api/traces"
-            - name: OPENTRACING_JAEGER_PROBABILISTIC_SAMPLER_SAMPLING_RATE
-              value: "1.0"
+            - name: OC_AGENT_HOST
+              value: "collector.linkerd-jaeger.svc.cluster.local:55678"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -136,18 +120,10 @@ spec:
     spec:
       containers:
         - name: service-c
-          image: biandayu/simple-service
+          image: biandayu/simple-service:v1.1.0
           imagePullPolicy: IfNotPresent
           env:
             - name: UPSTREAM
               value: "https://www.thecocktaildb.com/"
-            - name: OPENTRACING_JAEGER_SERVICE_NAME
-              value: "service-c"
-            - name: OPENTRACING_JAEGER_ENABLED
-              value: "true"
-            - name: OPENTRACING_JAEGER_ENABLE-B3-PROPAGATION
-              value: "true"
-#            - name: OPENTRACING_JAEGER_HTTP_SENDER_URL
-#              value: "http://zipkin.istio-system.svc:9411/api/traces"
-            - name: OPENTRACING_JAEGER_PROBABILISTIC_SAMPLER_SAMPLING_RATE
-              value: "1.0"
+            - name: OC_AGENT_HOST
+              value: "collector.linkerd-jaeger.svc.cluster.local:55678"

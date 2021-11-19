@@ -3,20 +3,16 @@ kind: Ingress
 metadata:
   name: example-ingress
   annotations:
-    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  #tls:
-  #- hosts:
-  #  - demo.example.com
-  #  secretName: demo-example-com-tls
+  ingressClassName: nginx
   rules:
-  - host: demo.example.com
-    http:
-      paths:
-      - path: /api
-        pathType: Prefix
-        backend:
-          service:
-            name: service-a
-            port:
-              number: 8080
+    - http:
+        paths: # specified path below, only be working when there is more than 1 path; If only having 1 path, it's always using / as path
+          - path: /
+            pathType: Prefix
+            backend:
+              service: 
+                name: service-a # internal service
+                port: 
+                  number: 8080 # port number that internal service exposes

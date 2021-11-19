@@ -9,6 +9,17 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 
+import io.opencensus.trace.AttributeValue;
+import io.opencensus.common.Scope;
+import io.opencensus.trace.Span;
+import io.opencensus.trace.Status;
+import io.opencensus.exporter.trace.jaeger.*;
+import io.opencensus.trace.Tracer;
+import io.opencensus.trace.Tracing;
+import io.opencensus.trace.config.TraceConfig;
+import io.opencensus.trace.config.TraceParams;
+import io.opencensus.trace.samplers.Samplers;
+
 import javax.servlet.http.HttpServletRequest;
 
 @SpringBootApplication

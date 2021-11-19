@@ -12,13 +12,15 @@ cd target/dependency
 jar -xf ../*.jar
 cd ..
 cd ..
-docker build -t biandayu/simple-service .
+docker build -t biandayu/simple-service:v1.1.0 .
+docker push biandayu/simple-service:v1.1.0
 ```
 
 ## Deploy
 ```
 kubectl apply -f deployment.yml
-kubectl apply -f ss-ingress.yml
+kubectl apply -f nginx-ingress.yml
+kubectl get -n default deploy -o yaml | linkerd inject - | kubectl apply -f -
 ```
 
 ## Open Dashboard Kiali

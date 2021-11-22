@@ -9,16 +9,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 
-import io.opencensus.trace.AttributeValue;
-import io.opencensus.common.Scope;
-import io.opencensus.trace.Span;
-import io.opencensus.trace.Status;
-import io.opencensus.exporter.trace.jaeger.*;
-import io.opencensus.trace.Tracer;
-import io.opencensus.trace.Tracing;
-import io.opencensus.trace.config.TraceConfig;
-import io.opencensus.trace.config.TraceParams;
-import io.opencensus.trace.samplers.Samplers;
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.extension.annotations.WithSpan;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -35,9 +27,14 @@ public class Application {
 	}
 
 	@RequestMapping("/**")
+	@WithSpan
 	public String pass(HttpServletRequest request) {
 		String path = request.getServletPath();
+		Span span = Span.current();
+		span.setAttribute("request.path", path);
+		span.addEvent("app.request.out");
 		ResponseEntity<String> response = requestUpstream(path);
+		span.addEvent("app.request.return");
 		return response.getBody();
 	}
 

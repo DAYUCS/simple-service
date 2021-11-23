@@ -64,21 +64,19 @@ spec:
     spec:
       containers:
         - name: service-a
-          image: biandayu/simple-service:v1.2.0
+          image: biandayu/simple-service:v1.2.1
           imagePullPolicy: IfNotPresent
           env:
             - name: UPSTREAM
               value: "http://service-b:8080"
             - name: JAVA_TOOL_OPTIONS
-              value: "-javaagent:/app/opentelemetry-javaagent-all.jar"
+              value: "-javaagent:/app/lib/opentelemetry-javaagent-all.jar"
             - name: OTEL_METRICS_EXPORTER
               value: "none"
             - name: OTEL_TRACES_EXPORTER
-              value: "otlp"
-            - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
-              value: "http://jaeger.linkerd-jaeger:16686/api/traces"
-            - name: OTEL_EXPORTER_OTLP_TRACES_PROTOCOL
-              value: "http/protobuf"
+              value: "zipkin"
+            - name: OTEL_EXPORTER_ZIPKIN_ENDPOINT
+              value: "http://collector.linkerd-jaeger:9411/api/v2/spans"
             - name: OTEL_RESOURCE_ATTRIBUTES
               value: "service.name=service-a,application=hello"
 ---
@@ -102,21 +100,19 @@ spec:
     spec:
       containers:
         - name: service-b
-          image: biandayu/simple-service:v1.2.0
+          image: biandayu/simple-service:v1.2.1
           imagePullPolicy: IfNotPresent
           env:
             - name: UPSTREAM
               value: "http://service-c:8080"
             - name: JAVA_TOOL_OPTIONS
-              value: "-javaagent:/app/opentelemetry-javaagent-all.jar"
+              value: "-javaagent:/app/lib/opentelemetry-javaagent-all.jar"
             - name: OTEL_METRICS_EXPORTER
               value: "none"
             - name: OTEL_TRACES_EXPORTER
-              value: "otlp"
-            - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
-              value: "http://jaeger.linkerd-jaeger:16686/api/traces"
-            - name: OTEL_EXPORTER_OTLP_TRACES_PROTOCOL
-              value: "http/protobuf"
+              value: "zipkin"
+            - name: OTEL_EXPORTER_ZIPKIN_ENDPOINT
+              value: "http://collector.linkerd-jaeger:9411/api/v2/spans"
             - name: OTEL_RESOURCE_ATTRIBUTES
               value: "service.name=service-b,application=hello"
 ---
@@ -140,20 +136,18 @@ spec:
     spec:
       containers:
         - name: service-c
-          image: biandayu/simple-service:v1.2.0
+          image: biandayu/simple-service:v1.2.1
           imagePullPolicy: IfNotPresent
           env:
             - name: UPSTREAM
               value: "https://www.thecocktaildb.com/"
             - name: JAVA_TOOL_OPTIONS
-              value: "-javaagent:/app/opentelemetry-javaagent-all.jar"
+              value: "-javaagent:/app/lib/opentelemetry-javaagent-all.jar"
             - name: OTEL_METRICS_EXPORTER
               value: "none"
             - name: OTEL_TRACES_EXPORTER
-              value: "otlp"
-            - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
-              value: "http://jaeger.linkerd-jaeger:16686/api/traces"
-            - name: OTEL_EXPORTER_OTLP_TRACES_PROTOCOL
-              value: "http/protobuf"
+              value: "zipkin"
+            - name: OTEL_EXPORTER_ZIPKIN_ENDPOINT
+              value: "http://collector.linkerd-jaeger:9411/api/v2/spans"
             - name: OTEL_RESOURCE_ATTRIBUTES
               value: "service.name=service-c,application=hello"

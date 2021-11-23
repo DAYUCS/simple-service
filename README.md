@@ -1,5 +1,11 @@
 # Deploy as Kubernetes service
 
+## Enable Minikube Nginx Ingress & Eable OpenTracing
+```
+minikube addons enable ingress
+kubectl replace -f nginx-tracing.yaml
+```
+
 ## Build
 ```
 mvn install -DskipTests
@@ -12,8 +18,8 @@ cd target/dependency
 jar -xf ../*.jar
 cd ..
 cd ..
-docker build -t biandayu/simple-service:v1.2.0 .
-docker push biandayu/simple-service:v1.2.0
+docker build -t biandayu/simple-service:v1.2.1 .
+docker push biandayu/simple-service:v1.2.1
 ```
 
 ## Deploy

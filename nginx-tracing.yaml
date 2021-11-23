@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+data:
+  enable-opentracing: "true"
+  zipkin-collector-host: collector.linkerd-jaeger
+metadata:
+  name: ingress-nginx-controller
+  namespace: ingress-nginx
